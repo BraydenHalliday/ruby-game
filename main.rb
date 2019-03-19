@@ -1,11 +1,14 @@
 require './questions'
 $questions = @questions
 class Player 
-	def initialize  ()  
+	attr_accessor :wins, :name
+	def initialize  (name)  
+	@name = name
 	@wins = 0
+	
  
  end 
-    attr_accessor :wins
+
 end
 
 class Game
@@ -17,27 +20,50 @@ class Game
 end 
 
 	def turn 
-		while @player1.wins != 3 || @player2.wins != 3 
-    random = rand(5)
+		counter = 0
+		while @player1.wins != 3 || @player2.wins != 3
+		
+			player = ''
+		if counter % 2 == 0
+			player = @player1
+		else 
+			player = @player2
+		end
+	#	p player.wins
+		random = rand(5)
+		# the issue player will not accpet the name method
+		# even tho its defined in the same way as wins
+		p "It is  #{player.name}'s turn!"
 		puts $questions[random][:question]
 		input = gets.chomp
 	
 		if input != $questions[random][:answer].to_s
-			puts 'idiot'
+			puts 'Your an idiot!'
+			counter += 1
 		else 
-		 @player1.wins += 1
-			puts 'cash money g'
+		 player.wins += 1
+			puts 'Thats right! cash money g'
+			counter += 1
+		#	p counter
 			#p @player1.wins
-			if @player1.wins == 3 || @player2.wins == 3 
-				puts 'Winner!'
-				break
+			
 		end
+		if @player1.wins == 3 || @player2.wins == 3 
+			puts " #{player.name} Wins!"
+			break
+		else
+			puts " score: "
+			puts "player1: #{@player1.wins} /3 ||| player2: #{@player2.wins} /3 "
+
+			
+		end
+			
 		end
   end
 end
-end
-player1 = Player.new
-player2 = Player.new
+
+player1 = Player.new 'player 1'
+player2 = Player.new 'player 2'
  game = Game.new player1, player2
 #p player1.wins
 game.turn
