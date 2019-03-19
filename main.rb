@@ -2,7 +2,7 @@ require './questions'
 $questions = @questions
 class Player 
 	def initialize  ()  
-	@wins = 3
+	@wins = 0
  
  end 
     attr_accessor :wins
@@ -16,7 +16,8 @@ class Game
 	 
 end 
 
-  def turn 
+	def turn 
+		while @player1.wins != 3 || @player2.wins != 3 
     random = rand(5)
 		puts $questions[random][:question]
 		input = gets.chomp
@@ -26,12 +27,18 @@ end
 		else 
 		 @player1.wins += 1
 			puts 'cash money g'
+			#p @player1.wins
+			if @player1.wins == 3 || @player2.wins == 3 
+				puts 'Winner!'
+				break
+		end
 		end
   end
+end
 end
 player1 = Player.new
 player2 = Player.new
  game = Game.new player1, player2
-p player1.wins
+#p player1.wins
 game.turn
-p player1.wins
+#p player1.wins
